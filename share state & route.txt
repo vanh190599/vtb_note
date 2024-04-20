@@ -1,0 +1,268 @@
+==================== FEDERATIO MODULE - WEBPACK ====================
+
+■ Code demo
+	- có 4 app: ✓	
+			+ Shell
+			+ Angular-app
+			+ React-app 
+			+ Vue App
+	- define 3 account users (login):
+			+ login user1/user1   ->   hiển Angular-app trong Shell 			✓
+			+ login user2/user2   ->   hiển React-app   trong Shell				✓
+			+ login user2/user3   ->   hiển VueApp + AngularApp  trong Shell	✓
+	- resue componet của app khác: share route/expose component
+	- shell: load remote app đẩy vào 1 biến loader => dùng container và template để mode hiển thị ✓
+	- 1 trang load 2-3 app: khác Framewok    		✓
+	- demo Mỗi app được gán thành 1 component/template   ✓
+	- meta data: loader.js
+	- demo load module theo 2 cách:
+		+ dynamic
+		+ lazy loading
+	
+	# use dự án thực tế:2 use case:
+			1. Widget là 1 component:
+					- dễ, routing auto khó
+					- bản chất load componet nên chạy trên độc lập và shell sẽ không giống nhau
+					  ví dụ: layout sẽ ăn theo shell (load ở shell) hoặc app chạy độc lập
+			2. Widget là cả 1 app và routing:
+					- nắm được code của app, ví dụ: ForRoot/ForChill
+					- chưa có cách giải quyết: chưa load được html.index của app vào shell 
+												> cách đã thử: expose module Root
+					
+	
+	# vấn đề / khó khăn
+		- dynamic route:
+			mô tả: click vào RouterLink trên app trong shell => path bị sai
+			=> phương án:
+				+ cách 1: 
+				+ cách 2: 
+		- ForRoot/ForChild
+		- expose Root Module -> khong chay index.html (app con)
+			=> chạy shell và chạy app con => không giống nhau: có thể layout bao ngoài!
+			=> mọi thứ còn lại Ok
+		- app shell phát triển song song
+			vd: code header ở shell...
+		- bê nguyên app angular sang => expose Route Root là OK (thiếu html.index)
+		- 2 use case:
+			+ Widget là 1 component.		
+						-> dễ, routing auto khó
+						-> bản chất load componet nên chạy trên độc lập và shell sẽ không giống nhau
+							ví dụ: layout sẽ ăn theo shell (load ở shell) hoặc app chạy độc lập
+			+ Widget là cả 1 app và routing:
+						- nắm được code của app, ví dụ: ForRoot/ForChill
+						- chưa có cách giải quyết: chưa load được html.index của app vào shell 
+													> cách đã thử: expose module Root
+		- lựa chọn thư viện:
+			
+	
+	
+	
+	Module Federation: Module Federation là một tính năng của Webpack,
+	cho phép bạn chia sẻ mã giữa các ứng dụng Angular hoặc giữa Angular và các ứng dụng khác như React hoặc Vue.
+	Điều này cho phép bạn tạo ra các microfrontend độc lập mà sau đó có thể tích hợp vào ứng dụng lớn hơn.
+		
+		
+		
+
+■ State
+	tài liệu: https://medium.com/sysco-labs/state-management-in-micro-frontends-ee273830f95f
+	- Web-Storage: Cookies/LocalStorage/Session
+	- State Management Service (Implementing a Shared API Utility)
+	- Global State: Create exported functions
+		+ Tạo ra một module hoặc một service để lưu trữ trạng thái toàn cục.
+		+ Cả hai ứng dụng app1 và app2 đều có thể truy cập và cập nhật trạng thái này.
+	- Sử dụng WebSocket hoặc Server-Sent Events (SSE)
+	- Custom Event: 
+		https://www.reddit.com/r/Angular2/comments/unvd7b/sharing_state_between_microfrontends/
+	- Rxjs: 
+		https://www.angulararchitects.io/en/blog/the-microfrontend-revolution-module-federation-in-webpack-5/
+	- windows varible
+	- EventBus
+	# FAQ: 
+		https://github.com/jherr/Module-Federation-FAQ
+	# From: Anh Mai Trung Đức
+		> cách 1: Share qua redux: vì redux rất phổ biến và dùng được với mọi framework
+		> cách 2: State được lưu ở app-shell và pass down vào các component, app shell cung cấp 1 service để transfer data giữa các component
+	
+	=> shared dependencies, mục đích là vì mỗi app của chúng ta có thể dùng chung những package khác nhau, và không muốn chúng được load nhiều lần vào app-shell.
+
+
+■ Route:
+	- vấn đề:
+		? loader 1 app vào shell -> routerLink bị lỗi do không có định nghĩa ở shell.
+		? Shell tries to load remote module from wrong port ("cannot match any routes") => https://stackoverflow.com/questions/70939200/dynamic-routes-of-routemodule-when-using-module-federation-plugin
+		? Lazy loading angular 17 not loading the child routes (https://stackoverflow.com/questions/78184566/lazy-loading-angular-17-not-loading-the-child-routes)
+		=>  phương án:
+					+ load static: app con expose Route -> shell nhận 
+					+ đóng gói route module:
+						> viết trong loader.ts
+						> shell sẽ xử lý logic để load
+		
+	- Test các trường hợp:
+					+ path: http:shell/xxx ==> load module remote
+					+ shell chạy route app con
+	
+
+	- 4 ways for load Lodule remote: https://oskari.io/blog/dynamic-remotes-module-federation
+		+ dynamic: 
+			đọc code LoadModuleRemote, tham khảo:
+				>
+				>
+				>
+				>	
+		+ khai báo trong config Federation
+
+
+■ Thư viện hỗ trợ triển khai MFE federation phổ biến:
+	1. @angular-builders/custom-webpack --> đơn giản
+		+ tài liệu techcombank
+		+ tài liệu github module-federation
+	2. @angular-architects/module-federation --> custom sâu
+	
+	https://www.steffendielmann.com/2021/05/07/microfrontend-with-angular-and-webpack-module-federation/
+	https://dzone.com/articles/personalize-your-angular-build-with-webpack
+
+
+				
+■ Nhận định:
+- Mfe là 1 bài toán lớn
+- State + route là phần nặng nhất mfe
+- 
+-
+
+
+■ Link tài liệu:
+-
+-
+-
+-
+-
+-
+				
+				
+				
+				
+				
+				
+				
+				
+				
+Adding Custom Metadata to The Manifest				
+				
+				
+				
+				
+■ 
+★ 
+✓
+
+----------------
+Docker
+	- Docker desktop
+	- Docker composer
+	
+chuẩn bị project: angular, vue,...
+
+- tạo file docker compose: docker-compose.yml
+	version: '3.8'
+	services:
+	  app-shell:
+		ports:					// map từ container -> local
+		  - "4200:4200"
+		build:					
+		  context: ./app-shell	// chi chinh folder
+		  dockerfile: .DockerFile 	// 
+	  vue-app:
+		ports:
+		  - "3000:3000"
+		build:
+		  context: ./vue-app
+		  dockerfile: .DockerFile
+		  
+	? volume
+	
+
+
+.DockerFile
+
+FROM  node:18-alpine  => image
+
+WORKDIR /app		=> source build ở đây
+
+COPY package*.json ./
+RUN npm install
+
+RUN npm install -g @angular/cli@13
+
+COPY . .
+CMD ["ng", "serve", "--host", "0.0.0.0"]
+
+
+----------------
+có nhiều cách chạy
+
+cách 1: 
+	// thường mode debug
+	$ docker compose up 
+						- d : không log
+						
+	// list các comtainer đang chạy
+	$ docker compose ps 
+	
+	// sh
+	$ docker compose 
+
+	// tắt container
+	
+	// run build
+	
+
+==========================================================
+
+
+1) Introduction
+
+2) Micro-Frontend demo
+
+3) Why Micro-Frontends?
+
+4) Why Module Federation?
+
+5) Asynchronous Loading (tải bất đồng bộ)
+	- share	
+		singleton
+	- React Suspense
+	
+
+6) Error Handling
+	- Error hànding
+	- Nếu có lỗi trong module remote => hiển thị Box báo lỗi (code in mfe)
+	
+
+7) Server Setup
+
+8) Sharing Functions
+
+9) Nomenclature
+
+10) Sever Cart Setup
+
+11) Sharing State
+
+12) Sharing the JWT
+
+13) Sharing the Cart
+
+14) State Sharing Alternatives
+
+15) Finishing the Cart
+
+16) Cross-Platform Micro-Frontends
+
+17) Micro-Frontend Routing
+
+18) Unit Testing
+
+19) End-To-End Testing
+
+20) What's Next?

@@ -1,0 +1,923 @@
+---- tìm hiểu angular + ant design ----
+
+★
+✥
+❖
+
+
+================================ ANGULAR =====================================
+
+❖ Tổng quan
+	- https://angular.io/features
+	- Angular là gì?
+		- avascript framework => fronttend
+		- single-page applications - SPAs
+		- develop by Google
+		- kiến thức nền tảng:
+			+ javascript => typescript sẽ là 1 lợi thế lớn
+			+ html/css
+	- Lợi ích:
+		+ server side rendering
+			- tính năng SSR (Server-side rendering)
+				=> tốt hơn để cải thiện tốc độ phía client
+					=> thân thiện với SEO hơn? 
+		+ mô hình thân thiện và tách biệt
+			- mô hình MVC
+		+ module liên kết sâu
+		+ tools and filter
+		+ testing and maintenance
+	- Đặc điểm chính của angular:
+		+ mô hình MVC	
+		+ Two-way Data Binding: khi dữ liệu thay đổi ở 1 nơi, nó sẽ tự động được cập nhật ở nơi khác
+			> property binding: truyền data vào view
+			> event binding: truyền event xử lý ở component -> property binding
+		+ Dependency injection: 
+			quản lý & cung cấp các service mà ứng dụng cần 
+				=> giảm độ phức tạm của mã nguồn, dễ kiểm soát
+		+ Angular được thiết kế bằng typescript 
+		+ Thư viện UI 
+		=> Lập trình Angular:
+			+ bao gồm việc sử dụng nn TypeScript (or JavaScript), HTML/CSS => xây dựng các thành phần components
+			+ quản lý dữ liệu (data binding)
+			+ xử lý sự kiện 
+			+ định tuyến Routing: tương tác với API để hiển thị quản lý nội dung
+	- Ưu nhược điểm:
+		- https://www.icantech.vn/kham-pha/angular-la-gi
+
+
+❖ Cài đặt môi trường phát triển
+	1. IDE: vscode, webstorm,...
+	2. nodejs: https://nodejs.org/en/download/current
+	3. giới thiệu "npm":
+		- "Node Package Manager" là một trình quản lý gói cho Node.js
+		- quản lý các gói và module 
+		- là một phần của cài đặt Node.js
+	4. angular CLI:
+		$ npm install -g @angular/cli
+		$ ng version
+	
+	
+❖ Build project:
+	1/ create pj: "ng new angular-demo"
+		https://angular.io/guide/file-structure
+		=> file structure
+			.editorconfig
+			.gitignore
+			README.md
+			angular.json
+			package.json
+			package-lock.json
+			src/						: chứa source code của toàn bộ ứng dụng
+				app						: chứa các components
+					*.html				: chứa view của component
+					*.scss				: chứa css của component
+					*.spect.ts			: 
+					*.component.ts		: 
+					*.module.ts			:   + là thành phần chính định nghĩa 1 module, đính kèm các component trong 1 module
+										    + 1 componet có thể đứng độc lập trong 1 module
+					=> NOTE: mỗi compoents thông thường có 4 files.
+				assets					: chứa thành phần tĩnh ảnh, icon,...
+				index.html 				: 
+				main.ts					:   + file chạy đầu tiên khi ứng dụng đc chạy
+											+ nhiệm vụ là chạy file main nào thì nó sẽ chạy
+				style.scss				: chứa các file css chung của toàn bộ ứng dụng
+			tsconfig.json				: config của typescript
+			tsconfig.spect.json			: file kế thừa từ config chính
+			node_modules/		
+			
+	$ run pj: "npm run start"
+		- bản chất sẽ chạy theo định nghĩa ở: package.json
+			"scripts": {
+			"ng": "ng",
+			...
+		},
+		- ngoài ra, có thể run trực tiếp & config port:
+			$ ng serve --port 0 --open
+			hoặc
+			$ ng serve --open
+
+
+❖ Tổng quan về các thành phần chính:
+	1. Module: 
+		- https://angular.io/guide/architecture-modules
+		- 1 khối/cụm tính tính năng hoặc thành phần liên quan tới nhau
+		- có thể bao gồm các module con
+		- Metadata NgModule
+		
+	2. Component: 
+		- là trung tâm của ứng dụng 
+			vd: header, sidebar, content, footert, app...
+				=> mỗi tp là 1 component
+		- gồm 3 thành phần:
+			+ template: html
+			+ code: code logic (typescript)
+			+ Metadata:angular decorator:
+				> tên component
+				> file template chỉ định là file nào
+				> file code 
+				> file css
+				=> để NG biết để biên dịch
+				
+		# COMPONENT OVERRVIEW:
+			- https://angular.io/guide/component-overview
+			- create:
+				$ ng generate component component-user
+			
+		
+	3. Service
+		- tập hợp func dùng chung để thực hiện logic
+		- create:
+			src/app/logger.service.ts (class)
+			=> sau đó inject những chỗ cần dùng		
+		- vd: 	
+			getListUser() 
+	4. Routing 
+		- điều hướng 
+		- routing thường đặt trong 1 module (link này load componet này...)
+		- html: <a RouterLink="...
+	5. Tools:
+		- https://angular.io/guide/understanding-communicating-with-http
+		- comunicate bacekend: HTTP
+	
+
+
+❖  Hướng dẫn dành cho nhà phát triển: https://angular.io/guide/developer-guide-overview
+	- Routing and Navigation
+		+ Common routing tasks
+		+ Single-page applications (SPAs) routing tutorial
+		+ Tour of Heroes expanded routing tutorial
+		+ Creating custom route matches tutorial
+		
+	- Forms
+	- HTTP
+	- TESTING	
+	- Internationalization
+	- Animations
+	- Internationalization
+	- Animations
+	- Service Workers and PWA
+	- Web Workers
+	- Server-side rendering
+	- Pre-rendering
+	
+
+		
+		
+MINI PROJECT:
+	- xây dựng page admin với các chức năng: thêm sửa xóa user
+	- data: fake data json!
+	- yêu cầu: không có routing => 404
+		ng generate component page-not-found
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+================================ ANT DESIGN =====================================
+I. Giới thiệu qua về Ant desgin 
+	- link: https://ng.ant.design/docs/introduce/en
+	
+	- Ant Desgin là gì?
+		+ là 1 hệ thống thiết kế (design system) chuyên nghiệp mà doanh nghiệp có thể dùng ngay lập tức!
+		+ cung cấp component và demo chất lượng cao
+			=> có thể điều chỉnh các component này theo nhu cầu thiết kể của mình
+		
+	
+	# Kết hợp với angular
+		# Building & Deployment
+
+
+--- Mục tiêu ---
+	micro frontend
+		> module federation webpack
+		> simple spa framework
+		
+		
+==================== ANGULAR MATERIAL COMPONET ====================
+- là các component được dựng sẵn
+	- tùy chỉnh theo từng dự án
+	
+	
+	
+	
+	
+==================== Keywords ====================
+- declarations : được sử dụng để khai báo thành phần trước khi sử dụng ở template, hoặc trong các thành phần khác của ứng dụng
+- standalone: 
+	
+
+
+LINK:
+- NG architecture: https://v2.angular.io/docs/ts/latest/guide/architecture.html
+- @lati57Bạn có thể sử dụng lệnh sau để tạo dự án có app.module.tsvà app-routing.module.ts:
+	ng new my-app --no-standalone --routing --ssr=false
+
+
+- thắc mắc cần giải đáp:
+	1. tài liệu vào doc không khớp?
+		-> chưa tìm ra nguyên nhân (mặc dù đã latest version)
+		- hình như không còn module mà sử dụng componets thôi
+		
+
+module "app"
+	> module "demo-ng-material-theme"
+		> comp
+		
+user/
+  ├── user-list/
+  │   ├── user-list.component.ts
+  │   ├── user-list.component.html
+  │   └── user-list.component.css
+  ├── user-detail/
+  │   ├── user-detail.component.ts
+  │   ├── user-detail.component.html
+  │   └── user-detail.component.css
+  └── user.service.ts
+  
+------------------------------------------
+Công việc ngày hôm nay:
+	- so sánh Bootstrap và Material
+	- demo:
+		+ grid
+		+ modal:
+			> form
+			> button
+		+ reuse component
+		+ card ngang 
+		+ tùy chỉnh themes
+		
+	
+-----------------------------------
+
+
+			Schedule
+
+			- Chiều Thứ 2 25/03:
+				+ trao đổi đầu việc
+				+ overview/setup angular
+				
+			- Thứ 3 26/03:
+				+ overview angular
+				+ code demo bootstrap
+				
+			- Thứ 4 27/03:
+				+ code overview angular
+				+ demo material
+				=> so sánh: bootstrap / material
+
+			- Thứ 5 28/03:
+				+ code demo ng-bootstap
+				+ confirm desginer
+				+ demo material
+				=> chốt dùng: Ant desgin
+				
+			- Thứ 6 29/03:
+				+ confirm desginer
+				+ Payment Hub: ant design + figma (coding 100%)
+					ng-zerro
+
+			------------------------
+			- Thứ 2 01/04:
+				+ multi languale
+				
+			- Thứ 3 02/04:
+
+
+# multi language:
+	Khái niệm:
+	1) i18n (internationalization)
+		+ process of "preparing" and "designing" your application to support its use in diffrent languages
+		
+		+ Tách nội dung để dịch
+		+ cập nhật ứng dụng của bạn để hỗ trợ văn bản hai chiều
+		
+	2) Localization:
+			> the process of "building" version of your project for diffrent locales
+	
+	3) Locale
+		- "Locale" là thuật ngữ dùng để xác định một khu vực nơi mà người dân sử dụng một ngôn ngữ hoặc biến thể ngôn ngữ cụ thể.
+		- Bao gồm định dạng cho:
+			• đo thời gian
+			• số và tiền tệ
+			• bản dịch tên (múi giờ, ngôn ngữ và quốc gia)
+			
+		vd: {language}-{locale_extension}
+			
+			i18n ----> localization:
+				+ en-US
+				+ fr-CA
+				+ de-CH
+		
+			# THE PLAN:
+				1. Install dependencies					: Cài đặt phụ thuộc
+				2. Internationalize the application		: Quốc tế hóa ứng dụng
+				3. Localize the application				: Bản địa hóa ứng dụng
+	
+	
+	
+	
+	
+	
+	
+	
+	- công dụng: 
+		> hiển thị định dạng: 
+			+ date 
+			+ number
+			+ percent
+			+ currency
+
+		> đánh dấu, dịch văn bản trong template (l)
+		> đánh dấu dạng biểu thức số nhiều để dịch
+		> đánh dấu văn bản thay thế để dịch
+
+	- "locateID"
+		{language_id}-{locale_extension}
+		=> ví dụ: 
+			en-CA, en-US, fr-CA, fr-FR
+			
+		set the source locale ID:	
+			> open the angular.json workspace build configuration file.
+			> change the source locale in the sourceLocale field.
+
+	(*) Format data dựa trên locale:
+		- cung cấp các Pipe biến đổi tích hợp:
+			+ DatePipe:
+				ex: {{ today | date }}
+			+ CurrencyPipe:
+				{{ amount | currency : 'en-US' }}
+			+ DecimalPipe:
+				
+			+ PercentPipe
+			
+	(*) Chuẩn bị thành phần để dịch: 			
+		- link: https://angular.io/guide/i18n-common-prepare
+		
+		1) Mark text in component template:
+			<element i18n="{i18n_metadata}">{string_to_translate}</element>
+			<element i18n="@@i18n_metadata">{string_to_translate}</element>
+			
+		2) i18n example:
+			`<h1>Hello i18n!</h1>`
+				=> đánh dấu dịch:
+					`<h1 i18n>Hello i18n!</h1>`
+					
+		3) Dịch văn bản nội tuyến không có phần tử HTML
+			ví dụ: 		
+				<ng-container i18n>I don't output any element</ng-container>
+				
+		4) Mark element attributes for translations:
+			<element i18n-{attribute_name}="{i18n_metadata}" {attribute_name}="{attribute_value}" />
+			
+			giải thích:
+				+ i18n-{attribute_name}: thuộc tính đặc biệt Angular để đánh dấu các chuỗi văn bản cho quá trình dịch và quốc tế hóa.
+					=> Thay thế "{attribute_name}" ví dụ: "placeholder", "title", "alt", vv.
+					
+				+ "{meaning}" : 
+					> Đây là một chuỗi mô tả ý nghĩa của văn bản đó
+					> Ví dụ, nếu văn bản là một tiêu đề, ý nghĩa có thể là "tiêu đề"
+
+				+ "{description}": Đây là một mô tả chi tiết về văn bản, giúp người dịch hiểu rõ hơn về cách sử dụng hoặc ngữ cảnh của nó. 
+					> Ví dụ, mô tả có thể là "Tiêu đề chào mừng trên trang chủ".
+						@@{id}: Đây là một ID duy nhất được sử dụng để định danh văn bản.
+
+				Ví dụ: 
+					+ i18n-placeholder="meaning|description@@uniqueId 
+						=> không hiển thị user, chỉ dùng để đánh dấu văn bản.
+						
+					+ <p i18n="@@welcomeMessage">Welcome to our website!</p>
+						=> văn bản hiển thị.
+
+				Ví dụ "i18n-title"
+					- <img [src]="logo" title="Angular logo" alt="Angular logo">
+					=> Add the i18n-title attribute: 
+						<img [src]="logo" i18n-title title="Angular logo" alt="Angular logo"/>
+
+		5) Mark text in component code:
+			link: https://angular.io/guide/i18n-common-prepare#mark-text-in-component-code
+			
+			- Sử dụng chuỗi thông báo được gắn thẻ $localize để đánh dấu một chuỗi trong mã để dịch:
+				$localize `string_to_translate`;
+				
+			-  i18n metadata được bao quanh bởi các ký tự dấu hai chấm (:) và thêm vào trước văn bản nguồn dịch.
+				ví dụ: 
+					const greeting = $localize `:{Greeting}Welcome to our website!`;
+						> {Greeting} là metadata cho chuỗi văn bản "Welcome to our website!". 
+						
+						(Tương đối giống attr trong validate của laravel)
+						
+			- Include interpolated text (Bao gồm văn bản nội suy)
+				$localize `string_to_translate ${variable_name}`;
+				
+			- Name the interpolation placeholder
+				$localize `string_to_translate ${variable_name}:placeholder_name:`;
+				
+			=== i18n metadata for translation ===
+				{meaning}|{description}@@{custom_id}
+				
+				- METADATA PARAMETER:
+					+ Custom ID			: Provide a custom identifier
+					+ Description		: Provide additional information or context
+					+ Meaning			: Provide the meaning or intent of the text within the specific context
+					
+					* Add helpful descriptions and meanings (Add helpful descriptions and meanings):
+						<h1 i18n="An introduction header for this sample">Hello i18n!</h1>
+						
+						ví dụ về việc cung cấp mô tả cho một thông điệp văn bản bằng cách sử dụng thuộc tính i18n hoặc chuỗi thông điệp được gắn thẻ $localize:
+						
+						1) i18n: <h1 i18n="An introduction header for this sample">Hello i18n!</h1>
+						2) $localize `:An introduction header for this sample:Hello i18n!`;
+
+						==> Giúp người dịch hiểu rõ hơn về ý nghĩa và ngữ cảnh của chuỗi văn bản "Hello i18n!"
+							
+							
+						
+		6) ICU expressions: <"International Components for Unicode">
+			Biểu thức ICU thường được sử dụng khi bạn cần hiển thị văn bản thay thế dựa trên các điều kiện hoặc lựa chọn khác nhau
+			
+			# Exam: 
+				1. Hiển thị văn bản phục vụ cho số lượng khác nhau
+					Ví dụ: "1 item" hoặc "2 items" tùy thuộc vào số lượng của danh sách.
+					
+				2. Hiển thị văn bản phụ thuộc vào các giá trị chuỗi cụ thể:
+					Ví dụ: Hiển thị "male" hoặc "female" tùy thuộc vào giới tính của người dùng.
+					
+				3. Hiển thị văn bản phụ thuộc vào điều kiện khác nhau:
+					Ví dụ: Hiển thị "New" cho sản phẩm mới, "Sale" cho sản phẩm đang giảm giá, và "Out of stock" cho sản phẩm hết hàng.
+			
+			=> Biểu thức ICU là một công cụ mạnh mẽ để quản lý và hiển thị văn bản đa dạng
+			
+			# Exam code:
+				<div>
+				  <!-- Hiển thị văn bản dựa trên số lượng -->
+				  <p i18n="{ itemCount, plural, =0 {Không có mục nào} =1 {Có # mục} other {Có # mục}}" [ngPlural]="itemCount">Items</p>
+				</div>
+		
+				<span i18n>Updated {minutes, plural, =0 {just now} =1 {one minute ago} other {{{minutes}} minutes ago}}</span>
+				
+				
+		7) Work with translation files
+			- sau khi chuẩn bị 1 thành phần để dịch
+				-> sử dụng lệnh "extract-i18n": 
+					=> trích xuất văn bản đã đánh dấu thành 1 tệp ngôn ngữ nguồn
+					
+					ví dụ:
+						$ ng extract-i18n --output-path src/locale
+						
+						=> tạo ra tệp: messages.xlf 
+						
+							<trans-unit id="An introduction message" datatype="html">
+						        <source>Welcome to our website!</source>
+						        <target></target>
+							</trans-unit>
+							
+			1) Extract the source language file: https://angular.io/guide/i18n-common-translation-files#extract-the-source-language-file
+				=> Tùy chọn, thay đổi vị trí, định dạng và tên
+				
+				ex:
+					ng extract-i18n --output-path src/locale
+					FILE EXTENSION: 	
+						.arb
+						.json 
+						.xlf
+						...
+				
+			2) Copy file ngôn ngữ nguồn để tạo file dịch cho từng ngôn ngữ.
+				- Create a translation file for each language:
+					https://angular.io/guide/i18n-common-translation-files#create-a-translation-file-for-each-language
+					
+					
+					
+					
+			
+			
+			# QUÁ TRÌNH LÀM VIỆC VỚI i18n:
+				1. Chuẩn bị các thành phần HTML: 
+					+ đánh dấu các phần cần dịch trong các tệp HTML của ứng dụng bằng cách sử dụng thuộc tính i18n hoặc các biểu thức $localize.
+
+				2. Trích xuất các văn bản đã đánh dấu: 
+					+ chạy lệnh "ng extract-i18n" để quét mã nguồn của ứng dụng 
+						=> trích xuất các văn bản đã đánh dấu vào một tệp ngôn ngữ nguồn (ví dụ: messages.xlf).
+
+				3. Dịch các văn bản: 
+					+ Bạn hoặc đội dịch của bạn sẽ sử dụng các công cụ dịch hoặc trực tiếp chỉnh sửa tệp ngôn ngữ nguồn để thêm các bản dịch cho các ngôn ngữ mục tiêu.
+
+				4. Tạo các tệp ngôn ngữ cho các ngôn ngữ mục tiêu
+					+ Sử dụng lệnh "ng xi18n" hoặc các công cụ tương tự để tạo ra các tệp ngôn ngữ cho các ngôn ngữ mục tiêu dựa trên tệp ngôn ngữ nguồn.
+
+				5. Sử dụng các tệp ngôn ngữ trong ứng dụng: 
+					+ Angular sẽ tự động chọn các bản dịch phù hợp dựa trên ngôn ngữ của người dùng khi ứng dụng chạy.
+					
+					
+			
+			Tóm tắt: https://angular.io/guide/i18n-common-translation-files
+			1. step 1: 
+				- trích xuất tệp ngôn ngữ nguồn
+				- có thể tùy chọn thay đổi vị trí, định dạng, tên của tệp nếu cần thiết
+				
+			2. Step 2:
+				- sao chép các tệp ngôn ngữ nguồn, tạo các tệp dịch cho ngôn ngữ mới (dựa vào tệp gốc)
+				
+			3. Step 3: 	
+				- dịch từng tệp
+			
+			4. Dịch các biểu thức số nhiều và các biểu thức thay thế riêng biệt
+				- dịch biểu thức số nhiều: https://angular.io/guide/i18n-common-translation-files#translate-plurals
+					ví dụ:
+					
+				- dịch biểu thức thay thế: https://angular.io/guide/i18n-common-translation-files#translate-alternate-expressions
+					ví dụ: 
+				
+				- dịch biểu thức lồng nhau: https://angular.io/guide/i18n-common-translation-files#translate-nested-expressions
+					ví dụ:
+						"There are {count, plural, =0 {no items} =1 {one item} other {# items}}"		
+						=> có thể dịch: "Hiện không có mục nào", "Chỉ có một mục" hoặc "# mục" tùy thuộc vào số lượng của đối tượng
+		
+
+		8) Hợp nhất các bản dịch vào ứng dụng
+			https://angular.io/guide/i18n-common-merge
+			
+		9) Deploy multiple locales:
+			https://angular.io/guide/i18n-common-deploy
+			
+			
+			
+			
+		# thực hành:
+			// install
+			$ ng add @angular/localize
+			
+			// thêm i18n vào thẻ html
+			// add i18n
+			
+			// extract
+			$ ng extract-i18n --output-path src/locale
+			
+			lỗi với tài liệu khi set translation trong angular.js 
+				=> cần đặt đúng biểu thức chính quy
+			
+			
+			
+	
+		
+# microfrontent:
+# resue component:
+	> demo
+# theme
+
+# mini file: css
+
+
+	
+	
+ 
+observeable form rxjs
+
+module app
+	module thành phần
+		> component
+
+forRoot
+
+
+----------------------------------------------------------------
+# summary Multi language
+I) sử dụng I18n Angular
+	step1: 
+	
+	■ I18n Angular
+	
+	- step 1: chuẩn bị file html
+		-> đánh dấu những thành phần cần dịch (sử dụng thuộc tính i18n)
+	
+	- step 2: trích xuất văn bản đã đánh dấu
+		-> tạo ra file: messages.tlf
+			(có thể lựa chọn extension, tên file, nơi lưu trữ)
+		
+	- step 3: copy file và dịch thuật
+		-> ví dụ tạo ra file: messages.vi.tlf
+		
+	- step 4: áp dụng vào dự án (config, run build )
+	
+	- step 5: deploy nginx 
+		
+		detech "Acept language" code?
+	
+	
+=> document
+	
+
+■ NG Translate
+
+
+# chọn i18n libraries:
+
+	- i18n: localize package
+		https://angular.io/guide/i18n-common-add-package
+		
+	- ngx translate:
+		https://congncc.blogspot.com/2019/03/a-ngon-ngu-trong-angular-trong-phan-nay.html
+		
+	- 
+	
+-----------------------------------
+==== 03/04/2024 ==== 
+
+"ng-high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration=development",
+
+
+
+❖ i18n
+	- angular localize:
+		+ demo ".json"
+			=> export / import OK
+			
+			
+			
+			=> co che link
+			=> xlf dev lam
+		
+		+ run build mặc định sinh ra route:
+			prerendered-routes.json
+			{
+			  "routes": [
+				"/vi/",
+				"/en/".
+			  ]
+			}
+
+	- ng-zerro :
+		+ mặc định Trung quốc
+			
+		+ chỉ change các text mặc định reger từ component
+			ví dụ: paginate, text date, text time, "start Date", "end Date",...
+		
+		+ chưa thấy support translate 
+			
+			
+	
+		
+
+
+❖ Theming NG-Zerro:
+
+	1. Theme Customization:
+	
+		1.1) NG-Zerro có 4 themes:
+			1. default Theme
+			2. Dark Theme
+			3. Compact Theme
+			4. Aliyun Theme
+			
+			
+			=> support: CSS / LESS
+				* cần theme nào thì import theme đó (không dùng có thể comment)
+				* angular.js
+					=> default build: 
+						"ng-zorro-antd.css"
+		
+		1.2) Customize Pre-defined Theme
+			- Method 1: Override style variables in Less (.less)
+			
+			- Method 2: ghi đè variables trong webpack
+				+ ghi đè Theme đã có sẵn
+					ví dụ: https://ng.ant.design/docs/customize-theme/en#method-2:-override-theme-variables-in-webpack
+						- ghi đè colorPalette.less vào darkThemeVars & compactThemeVars
+			
+				+ override by customized style variables
+				
+		1.3) Theme Dynamic Switching
+			- load tất cả
+			- src/styles
+			  ├── dark.less
+			  ├── default.less
+			  └── themes
+				  ├── base.less
+				  ├── dark.less
+				  ├── default.less
+				  └── mixin.less
+
+
+	2. Dynamic Theme (bản thử nghiệm chưa chính thức)
+	
+		=> bản chất là thay đổi NzConfig:
+			+ được cung cấp service "nzConfigService" để thay đổi
+			+ đổi css default* sang variable css file: ng-zorro-antd.variable.min.css
+				=> sau đó custom bằng cách thay đổi thuộc tính của nzConfigService
+		
+		=> có thể tùy chỉnh sâu vào config
+			+ màu sắc
+			+ size
+			
+					
+	=> hoàn toàn có thể tự custom css + js bình thường
+	
+
+
+
+	- lấy ví dụ về css màu
+	- hoàn toàn có thể tự tạo theme theo mẫu của desiger của vietinbank
+		
+
+❖ min.css:
+	// tool minify CSS:
+		1. UglifyJS 
+			npm install uglify-js --save-dev
+
+	ng serve --configuration=production
+	npm run 
+	
+	// Fix "bundle initial exceeded maximum budget"
+	
+	node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration=development
+	
+	node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration=production
+	node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --localize --configuration=production
+	
+	
+	node C:\Users\Anhnv17\AppData\Roaming\npm\node_modules\http-server\bin\http-server -p 4800
+	node C:\Users\Anhnv17\AppData\Roaming\npm\node_modules\http-server\bin\http-server
+	
+	=> So sánh css trong dist
+	
+	
+	# tham khảo
+		https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.css
+		https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css
+		
+
+❖  Reuse components:
+	// Example
+	
+	// create component
+	ng generate component user/user
+
+	
+❖  Dev tool:
+	Angular 
+
+
+
+(*) vấn đề:
+	- mạng nội bộ:
+		+ npm install: xin lại
+		+ download file từ figma
+		+ chorme
+		
+--------------------
+- MIRCRO FRONTEND
+	> 
+	> 
+
+- STATE MANAGE
+
+
+
+
+
+
+
+
+
+
+
+
+
+Có một số lí do tại sao bạn có thể chạy ứng dụng Angular của mình mà không cần một máy chủ web như Apache:
+
+http-server là một máy chủ HTTP tĩnh đơn giản: http-server là một công cụ dễ sử dụng và nhẹ nhàng được thiết kế đặc biệt để phục vụ các tệp tĩnh. Nó không yêu cầu nhiều cấu hình và có thể chạy ngay lập tức sau khi cài đặt.
+
+Ứng dụng Angular của bạn là một ứng dụng SPA (Single Page Application): Angular thường được sử dụng để xây dựng các ứng dụng web đơn trang (SPA), nơi mà toàn bộ nội dung trang web được tải lần đầu tiên và sau đó tương tác tiếp theo diễn ra thông qua các request AJAX hoặc các thay đổi trạng thái của URL. Do đó, không cần thiết phải có một máy chủ web như Apache để phục vụ mỗi trang.
+
+CORS (Cross-Origin Resource Sharing): Trong môi trường phát triển (development environment), việc chạy một máy chủ web từ http-server giúp tránh vấn đề CORS khi tương tác với các API từ máy chủ khác.
+
+Tóm lại, khi bạn phát triển một ứng dụng Angular đơn giản hoặc cần kiểm tra nhanh trên môi trường local, http-server là một lựa chọn thuận tiện và hiệu quả mà không cần phải cấu hình hoặc triển khai một máy chủ web phức tạp như Apache.
+
+
+--------------------------------
+
+
+
+
+
+
+1. DEMO i18n:
+
+	local storage
+	
+	- coding:
+		- chủ động tùy chỉnh localStorage (App Shell)
+			
+			- mặc định set tiếng việt:
+				=> request header
+					- Acept language: vi
+						
+				- change: "en"
+				
+				
+		- ngx-translate can thiệp localStorage
+			
+		
+
+	--------------------------------
+	# state management:
+		- https://viblo.asia/p/ngrx-la-gi-thu-nghiem-voi-ngrx-trong-ung-dung-angular-phan-1-djeZ1pVjKWz
+		- demo dự án:
+			+
+			+
+			+
+	
+		NgRx state management with RxJs
+	
+
+2. State Manager:
+	- ngxr
+		https://ngrx.io/
+		https://viblo.asia/p/ngrx-la-gi-thu-nghiem-voi-ngrx-trong-ung-dung-angular-phan-1-djeZ1pVjKWz
+		
+		+ Store - nơi chứa các State.
+		+ Action - thể hiện các hành động ,thao tác khi muốn thay đổi State
+		+ Reducer - thực việc chuyển đổi State từ trạng thái này sang trạng thái khác.
+		+ Selector - thể hiện vùng chọn của các State được lưu trữ trong Store
+
+
+
+
+
+
+# micro frontend:
+	* MONOLITHIC PROBLEMS
+		- multiple teams work on a code base 
+		- small change, big effort
+		- domain/Business/Code base knowledge
+		- build/Deployment
+		- control quality a bigger application
+		
+		=> dự án rất lớn, vấn đề build, deploy
+		
+		
+	* Micro frontend:
+		- triển khai các module độc lập, xây dựng các service tách biệt và dễ dàng thay đổi.
+		- nguyên tắc:
+			+ mỗi service chỉ có một nhiệm vụ duy nhất và đảm bảo là nó không quá to
+			
+		- nhiều service, mỗi service là 1 standalone application gồm nhiều serive 
+
+		Build một app :
+		
+			App shell
+			
+				> widget (app con): vue | react | angular --> ĐỘC LẬP, TEAM A
+				
+				> widget (app con): vue | react | angular
+				
+				> widget (app con): vue | react | angular
+				
+				> widget (app con): vue | react | angular
+		
+
+### module federation webpack
+	
+	Construct App shell: 
+		+ widget1 (vue)
+		+ widget2 (ng),
+		...
+	
+	- Giải quyết bài toán:
+		+ các ứng dụng có công nghệ khác nhau
+		+ mỗi widget là 1 thư viện npm khác nhau
+		+ scale up
+			- dev coding build
+			- release
+			
+		+ 
+	
+	(*) remote module:
+		- Remote module là các module được tải từ một nguồn khác
+			không phải là phần của app
+		
+		- có thể cấu hình ứng dụng của mình để tải các module từ các nguồn khác nhau
+		
+	
+	# thực hành:
+		- 
+
+
+II. simple SPA framework
+
+
+
+
+---
+
+Mail
+
+--
+localstorage: check
+ngnx-translate: storage
+	=> State...

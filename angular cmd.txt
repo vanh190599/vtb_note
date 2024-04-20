@@ -1,0 +1,20 @@
+❖ create component
+	ng generate component path/module-todolist
+	ng generate component my-counter/my-counter
+	
+❖ create module
+	ng generate module path/module-todolist
+
+❖ i18n (localize) extract: https://angular.io/guide/i18n-common-translation-files
+	ng extract-i18n
+	ng extract-i18n --output-path src/locale
+	ng extract-i18n --format json --output-path src/locale
+	
+❖ node C:\Users\Anhnv17\AppData\Roaming\npm\node_modules\@angular\cli\bin\ng new demo-ngx-translate --no-standalone
+
+
+
+
+
+
+ng generate component my-counter/my-counter

@@ -1,0 +1,423 @@
+1) ngx-translate:
+	https://github.com/ngx-translate/core
+	
+	// install
+	npm install @ngx-translate/core --save
+	
+	// TranslateHttpLoader để tải bản dịch từ các tệp bằng HttpClient
+	npm install @ngx-translate/http-loader --save
+
+
+	- không sd được localStorage 
+		-> phương án thay thế, state management:
+											+ NgRx
+											+ RxJs
+
+	// run ng 
+	node C:\Users\Anhnv17\AppData\Roaming\npm\node_modules\@angular\cli\bin\ng version
+	
+	// tạo dự án với module
+	node C:\Users\Anhnv17\AppData\Roaming\npm\node_modules\@angular\cli\bin\ng new demo-ngx-translate --no-standalone
+
+
+	=> nhận định:
+		- json ngôn ngữ chỉ tải lần đầu, ngôn ngữ nào cần load thì tải tiếp
+
+
+2) i18n angular localize
+	- switch: chỉ cần thêm "/vi" hoặc "en" ở đầu là ok
+		-> không có path: apache mới check
+
+3) host local: done
+
+
+4) Microfrontend
+	# FEDERATION <module federation webpack>
+		https://viblo.asia/p/microfrontend-module-federation-dua-microservices-den-voi-frontend-AZoJjXEEVY7
+		https://www.tiepphan.com/practical-micro-frontends-angular/
+	
+		Webpack 5:
+			- là một phiên bản cải tiến của công cụ đóng gói mã nguồn mở mạnh mẽ
+			- các chức năng Module Federation chỉ hỗ trợ cấu hình tải các file từ một remote url
+			- Module Federation là một tính năng mới của Webpack 5
+				+ chia sẻ code giữa các ứng dụng hoặc các phần của ứng dụng một cách hiệu quả
+			
+			# Ưu điểm:
+				- Có thể chia sẻ tài nguyên giữa các dự án. Ví dụ dự án A sử dụng React 16.x và dự án B cũng sử dụng React 16.x thì khi tải module B sẽ không cần phải tải thêm React một lần nữa
+					nếu 2 version khác nhau thì nó sẽ tự động tải thêm version React còn thiếu.
+				- Giao tiếp giữa các dự án một cách đơn giản, có thể sử dụng chung một Redux store giữa các dự án với nhau
+			
+			# Hạn chế:
+				- Các dự án phải sử dụng Module Federation của Webpack 5.x
+				- Buộc phải các dự án phải có các static domain để tải các bundle file tương ứng. Vì các chức năng Module Federation chỉ hỗ trợ cấu hình tải các file từ một remote url
+			
+			- Widget:
+				+ có thêm 2 thức
+					1) loader
+						> file này sẽ export 1 object bao gồm framework hiện tại là gì react | vue | angular
+						--> việc này để lát nữa lúc app-shell load từng widget lên thì nó sẽ biết cách render từng widget cho đúng
+				
+						
+					2) webpack.config.js | vue.config.js | ModuleFederationPlugin 
+	
+		setup
+			1) create projectnode C:\Users\Anhnv17\AppData\Roaming\npm\node_modules\@angular\cli\bin\ng new app-shell --no-standalone --create-application=false
+			
+			2) custom webpack: (shell)
+				npm i @angular-builders/custom-webpack
+			
+			3) app
+			npx ng generate application shell
+			
+			npx ng generate application widget01 --no-standalone
+			npx ng generate application widget02 --no-standalone
+			
+			npx ng generate application shell --no-standalone
+			
+			
+			// run
+			ng serve --project=shell
+			ng serve --project=widget01
+			ng serve --project=widget02
+			
+			
+			// create module & component
+			npx ng generate module src/app/app01
+			npx ng generate component src/app/app01/home
+			
+			npx ng generate component src/app/app01
+			npx ng generate component src/app/w/home
+			
+			
+			
+		-- lỗi:
+			+ SyntaxError: Cannot use 'import.meta' outside a module
+				=> fix: 
+					https://www.freecodecamp.org/news/cannot-use-import-statement-outside-a-module-react-typescript-error-solved/
+					tsconfig.appcommonjs
+						compilerOptions "module": "commonjs",
+						
+			
+			+ module build failed (from ./node_modules/@ngtools/webpack/src/ivy/index.js)
+			
+			+ lưu ý:
+				angular.js
+					"customWebpackConfig": {
+					  "path": "projects/widget02/webpack.config.js"
+					}
+					
+			+ Shared module is not available for eager consumption: 7310
+				fix: 
+					tạo bootstrap.ts => copy main.js và patse
+					=> main.ts:
+						import bootstrap.ts
+			
+			+ The Router was provided more than once. This can happen if 'forRoot' is used outside of the root injector. Lazy loaded modules should use RouterModule.forChild() instead
+				fix:
+					widget|app
+						=> router: đổi ForRoot --> ForChild
+			
+			
+				
+		
+	
+	# SPA <simple spa framework>
+
+
+6) state management:
+
+	# RxJS:
+		- RxJS là một thư viện dựa trên Observables được sử dụng để làm việc với các sự kiện và dữ liệu không đồng bộ trong ứng dụng JavaScript.
+		
+		
+
+
+	# NgRX:
+		https://blog.angular-university.io/angular-2-redux-ngrx-rxjs/
+		https://blog.angular-university.io/angular-ngrx-store-and-effects-crash-course/
+		
+		
+		- NgRx là một thư viện được xây dựng trên cơ sở của RxJS và được thiết kế dựa trên mô hình Redux
+			+ Sử dụng RxJS
+			+ Dựa trên Redux
+			+ Redux principles
+			+ Cú pháp và cách thức hoạt động
+				Observables,
+				actions
+				reducers
+				effects
+
+			=> giống như trong RxJS và Redux
+		
+		
+		=> CHỌN: NgRx là một thư viện quản lý trạng thái dựa trên mô hình Redux, được thiết kế đặc biệt cho Angular
+		
+	
+		- liên quan gì tới Rxjs?
+			+ được xây dựng trên cơ sở của RxJS
+			+ NgRx sử dụng RxJS để quản lý trạng thái ứng dụng và thực hiện các hoạt động như dispatch actions, gọi các reducers và select state từ store
+			+ Các khái niệm chính của NgRx như Store, Actions, Reducers và Effects đều dựa trên các tính năng của RxJS.
+	
+		- Tư tưởng chính của việc sử dụng NgRx sẽ là có 1 Store chứa dữ liệu và Store này là duy nhất
+			=> Tất cả Component, Service trong ứng dụng sẽ dùng chung dữ liệu đó.
+			
+			
+		- NgRx bao gồm 4 thành phần chính: https://nhobethoi.com/ngrx-1-tim-hieu-ve-ngrx/
+			+ Store			: 	nơi chứa các State (storeModule)
+			+ Action 		: 	thể hiện các hành động, thao tác khi muốn thay đổi State.
+			+ Reducer 		: 	thực việc chuyển đổi State từ trạng thái này sang trạng thái khác.
+			+ Selector  	: 	thể hiện vùng chọn của các State được lưu trữ trong Store.
+		
+		=> 4 thành phần chính của NgRx và còn thêm nhiều các khái niệm khác như Effects, Adapter…
+		
+		
+		
+	
+		
+		
+		----------- GPT -----------
+		Trong Angular, không có một khái niệm cụ thể được gọi là "Redux store" như trong React. Thay vào đó, Angular thường sử dụng một kiến trúc quản lý trạng thái khác, được gọi là "NgRx Store", là một phần của thư viện NgRx.
+
+		NgRx Store cung cấp một cách để quản lý trạng thái của ứng dụng theo cách tương tự như Redux trong React. Nó thường được sử dụng để lưu trữ trạng thái toàn cục của ứng dụng và cung cấp các phương thức để thay đổi trạng thái đó.
+
+		Dưới đây là một ví dụ về cách sử dụng NgRx Store trong Angular:
+
+		1) Định nghĩa các reducers để xác định cách thay đổi trạng thái của ứng dụng dựa trên các hành động (actions). Ví dụ:
+			
+				// todo.reducer.ts
+
+				import { createReducer, on } from '@ngrx/store';
+				import { addTodo, deleteTodo } from './todo.actions';
+
+				export interface Todo {
+				  id: number;
+				  text: string;
+				}
+
+				export interface AppState {
+				  todos: Todo[];
+				}
+
+				const initialState: AppState = {
+				  todos: []
+				};
+
+				export const todoReducer = createReducer(
+				  initialState,
+				  on(addTodo, (state, { todo }) => ({
+					...state,
+					todos: [...state.todos, todo]
+				  })),
+				  on(deleteTodo, (state, { id }) => ({
+					...state,
+					todos: state.todos.filter(todo => todo.id !== id)
+				  }))
+				);
+		
+		
+		2) Kết hợp tất cả các reducers lại với nhau để tạo ra một store sử dụng StoreModule.forRoot().
+				// app.module.ts
+
+				import { StoreModule } from '@ngrx/store';
+				import { todoReducer } from './todo.reducer';
+
+				@NgModule({
+				  imports: [
+					// other imports...
+					StoreModule.forRoot({ todos: todoReducer })
+				  ],
+				  // ...
+				})
+				
+				export class AppModule { }
+				
+				
+		3) Bây giờ, bạn có thể sử dụng store trong ứng dụng của mình. Ví dụ, bạn có thể kết nối component Angular với store bằng cách sử dụng select() từ thư viện @ngrx/store để truy cập trạng thái hoặc dispatch các hành động. typescript
+				// todo-list.component.ts
+
+				import { Component } from '@angular/core';
+				import { Store, select } from '@ngrx/store';
+				import { Observable } from 'rxjs';
+				import { Todo, AppState } from './todo.reducer';
+
+				@Component({
+				  selector: 'app-todo-list',
+				  templateUrl: './todo-list.component.html',
+				  styleUrls: ['./todo-list.component.css']
+				})
+				export class TodoListComponent {
+				  todos$: Observable<Todo[]>;
+
+				  constructor(private store: Store<AppState>) {
+					this.todos$ = this.store.pipe(select('todos'));
+				  }
+				}
+		=> Trong ví dụ này, NgRx Store giữ trạng thái của danh sách công việc và cung cấp phương thức để thay đổi trạng thái đó, tương tự như Redux trong React.
+		
+		--------------------------------------
+				
+				
+		https://dev.to/paulmojicatech/an-introduction-to-rxjs-and-ngrx-59nh
+		
+		
+		-- Thực hành:
+			# counter.actions.ts 
+				để mô tả các hành động truy cập để tăng, giảm và đặt lại giá trị của nó.
+	
+		
+7) Mail:
+
+	rxjs
+	
+
+
+================================================
+# vấn đề cần báo cáo lại, do tìm hiểu chưa kỹ, chưa demo 
+	
+1. i18n angular: 
+	- ví dụ switch ngôn ngữ => không phải gửi lại Accept Language
+		+ chỉ cần thêm path "/vi", "/en"... là ok
+	
+2. ngx-translate:
+	- không phải tất cả các ngôn ngữ đều tải lên 1 lúc, lang nào đã được load thì không load lại nữa
+	- có thể thêm path (giống như i18n localize)
+		=> nhưng phải cài thêm service
+	
+	
+3. lưu trữ cài đặt language
+	- localStorage	
+		+ tham khảo browser service: https://blog.shhdharmen.me/browser-storage-in-angular-ssr
+		+ console.log(localStorage)
+			angualer.js mặc định	
+				> chạy trình duyệt OK
+				> render thì bị báo lỗi ở console
+				
+			Fix: https://stackoverflow.com/questions/77827909/angular-17-localstorage
+			
+			Tóm tắt:
+				- đây là vấn đề liên quan đến SSR (Server-Side Rendering)
+				- LocalStorage là một tính năng chỉ có sẵn trong trình duyệt.
+					=> và không thể truy cập từ một máy chủ (server)
+						Khi ứng dụng Angular được chạy trên máy chủ với SSR
+						
+					=> LocalStorage sẽ không khả dụng và sẽ gây ra lỗi khi cố gắng truy cập nó
+				
+				Fix:
+					=> Bạn có thể chạy ứng dụng chỉ ở phía client bằng cách tắt SSR:
+					=> Xóa "prerender:true" & các cài đặt về server trong tập tin angular.json
+
+Bạn có thể chạy ứng dụng chỉ ở phía client bằng cách tắt SSR:
+
+Xóa prerender:true và các cài đặt về server trong tập tin angular.json.
+
+
+
+
+
+\\ =================== NGÀY: 15/04 =================== \\
+
+# tại sao sử dụng custom webpack? cải tiến thêm được những gì?
+# demo: code hiện tại, bỏ custom webapack có chạy không?
+# demo: share state giữa các app
+# cơ chế rouing:
+	+ load module (đã demo)
+	+ proxy
+
+
+
+
+
+
+# SHARE STATE (mfe)
+	tài liệu: https://medium.com/sysco-labs/state-management-in-micro-frontends-ee273830f95f
+	
+	# LocalStorage
+		- dễ sử dụng
+		- bị giới hạn lưu trữ (5mb)
+		- chỉ lưu ở phía client
+		
+		=> Không khuyến khích: vấn đề bảo mật, hoạt động kém: https://www.reddit.com/r/Angular2/comments/unvd7b/sharing_state_between_microfrontends/
+			
+		
+	# State Management Service (Implementing a Shared API Utility)
+		- độc lập hoạt động như 1 dv API.
+		=> có thể được triển khai trên server riêng hoặc tích hợp vào một phần của ứng dụng backend.	
+		
+		
+	# Sử dụng Trạng thái Toàn cục (Global State): Create exported functions
+		- Tạo ra một module hoặc một service để lưu trữ trạng thái toàn cục.
+		- Cả hai ứng dụng app1 và app2 đều có thể truy cập và cập nhật trạng thái này.
+		
+	# Sử dụng WebSocket hoặc Server-Sent Events (SSE)
+	
+	
+	# Custom Event: 
+		nguồn: https://www.reddit.com/r/Angular2/comments/unvd7b/sharing_state_between_microfrontends/
+			"We are using a global window property together with CustomEvents, wrapped by a very basic service that is published as npm package. This way a non-angular MFE could also consume the state. Works flawlessly so far."
+			=> Custom Event
+		
+		-> demo:
+			
+	# Rxjs:
+		https://www.angulararchitects.io/en/blog/the-microfrontend-revolution-module-federation-in-webpack-5/
+		
+	
+	# bien trung gian windows
+	
+	# Custom Event:
+	
+	# Cookies
+	
+	# Web-Storage
+
+
+	=== FAQ ===
+	# nguồn: https://github.com/jherr/Module-Federation-FAQ
+	- FEDERATION là chia sẻ code, không phải state.
+		--> cơ chế:
+			+ REST 
+			+ API GraphQL 
+			+ Websockets 
+			+ Firebase hoặc Supabase.
+			
+			
+	=================
+	
+	Cách 1: Share qua redux: vì redux rất phổ biến và dùng được với mọi framework
+	Cách 2: State được lưu ở app-shell, và pass down vào các component, app shell cung cấp 1 service để transfer data giữa các component
+		
+
+# thư viện hỗ trợ triển khai MFE federation phổ biến:
+	
+	- @angular-builders/custom-webpack
+	
+	- @angular-architects/module-federation
+				
+				
+// =================================== 17.04.2024 ================================== // 
+
+1. routing:
+	- app shell: routing dùng componet (standard alone) của app con 	=> OK  
+	- app con share router app con
+	
+	
+	
+	
+2. state
+	- shell <-> con
+	- con <-> con
+
+
+- custom webpack chinh thong co dung: https://github.com/module-federation/module-federation-examples/tree/master
+	=> nhieu luot down
+
+
+
+shell.com/angular --> angualer				
+shell.com/reat --> angualer				
+state.
+
+-- nginx: deploy
+	
+	
+consumes:145 Uncaught Error: Shared module is not available for eager consumption: 5212
