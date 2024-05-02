@@ -17,4 +17,10 @@
 
 
 
-ng generate component my-counter/my-counter
+ng generate component app/shell-wrapper
+ng generate component app/mfe-state
+
+
+
+ng g @angular-architects/module-federation --project payment-hub-shell --port 4200 --type dynamic-host
+

@@ -24,10 +24,24 @@
 					- dễ, routing auto khó
 					- bản chất load componet nên chạy trên độc lập và shell sẽ không giống nhau
 					  ví dụ: layout sẽ ăn theo shell (load ở shell) hoặc app chạy độc lập
+					  
+					  # share component
+					  # share module? 
+						? từ module share có lấy được route không? chắc có =)
+						? từ module có lấy được các component con không?
+						=> có nên share toàn bộ module?
+								hay chỉ share app con?
+					  
 			2. Widget là cả 1 app và routing:
 					- nắm được code của app, ví dụ: ForRoot/ForChill
 					- chưa có cách giải quyết: chưa load được html.index của app vào shell 
 												> cách đã thử: expose module Root
+												
+		
+					# share route:
+						- expose route từ app con => app con nhiều path => trỏ tới nhiều component (app con)
+							-> app cha gọi remote là dùng được tất
+							   trong trường hợp app shell muốn gọi 1 app khác thông qua path "/{name_xxx}"
 					
 	
 	# vấn đề / khó khăn
@@ -216,9 +230,15 @@ cách 1:
 	
 	// run build
 	
+	
+	
+	
+	
+	
+	
+	
 
 ==========================================================
-
 
 1) Introduction
 
@@ -239,15 +259,36 @@ cách 1:
 	- Nếu có lỗi trong module remote => hiển thị Box báo lỗi (code in mfe)
 	
 
-7) Server Setup
+7) Server Setup:
+	- create project server
 
-8) Sharing Functions
+8) Sharing Functions:
+	Server:8080
+		create funtion 
+			getProduct()
+			getProductById()
+			
+	Home:3001
+		product.js 					-----> dùng để share function cho "shell" (expose product.js)
+			+ getProductById()  	--> call api tới server
+			+ getProduct()			--> call api tới server
+			+ currency				--> format tiền 
 
-9) Nomenclature
+9) Nomenclature : danh pháp
+	- login jwt
+	- addCart
 
 10) Sever Cart Setup
+	- setup server card
+	
 
 11) Sharing State
+	- cài thêm rxjs: 
+		theo dõi hành vi
+		lưu trữ ghi chú, mà thông báo web hoặc json
+		điều thú vị là không bị ràng buộc bởi framwork nào
+		
+	3. state ( authen token chẳng hạn) phải đc đồng bộ khi gọi link giữa các app với nhau?
 
 12) Sharing the JWT
 
@@ -266,3 +307,133 @@ cách 1:
 19) End-To-End Testing
 
 20) What's Next?
+
+-- thứ 7---
+luồng login
+
+------ ngày mai ------
+- xem nốt khóa học
+- routing:
+	+ architects/module-federation
+- state:
+	+ lưu localstorage | api
+	
+
+
+
+
+
+
+
+
+# load module?
+	- không làm theo importsm nà sẽ dynamic import:
+		Follow
+			b1: tạo script
+			b2: đọc thông tin module đc load từ thẻ script kia.
+		=> control cao hơn, khai báo remote là hard code, không thể thay đối sau khi build
+		
+		Vì sao?
+			- Tính linh hoạt cao: Bạn có thể tải các module từ các ứng dụng Microfrontend khác nhau vào ứng dụng hiện tại một cách linh hoạt và dễ dàng.
+			- Tăng hiệu suất: Dynamic import cho phép tải các module cần thiết tại thời điểm cần thiết, giúp tăng hiệu suất và giảm thời gian load của ứng dụng.
+			- Mở rộng dễ dàng: Kỹ thuật này làm cho việc mở rộng ứng dụng dễ dàng hơn bằng cách thêm mới các module từ các ứng dụng Microfrontend khác mà không làm ảnh hưởng đến cấu trúc hiện tại của ứng dụng.
+			- Kiểm soát tốt hơn:
+			
+----------------
+Hi anh, em có tìm hiểu 2 cách load module hôm nọ ae trao đổi, e note vài ý trả lời câu hỏi 2 cách khác gì nhau, 
+
+- cách 1: dùng "remotes" option của Federation plugin
+- cách 2: dynamic import (dùng code, input là tham số app remote)
+			
+----------------
+Tại sao nên chọn cách 2?
+- control cao hơn, cách khai báo "remotes" là hard code và ko thay đổi được sau khi build
+
+- tăng hiệu suất: chỉ khi nào dùng thì tải module -> giảm time load
+
+- tính linh hoạt cao, mở rộng dễ dàng, được hỗ trợ chính thức
+
+
+
+-- link tham khảo & tài liệu:
+- 4 cách & tại sao nên sử dụng Dynamic Remotes: https://oskari.io/blog/dynamic-remotes-module-federation
+
+- Webpack docs: https://webpack.js.org/concepts/module-federation/#dynamic-remote-containers
+
+- source exampe, nhiều case hay gặp => có thể tham khảo để build base project: https://github.com/module-federation/module-federation-examples
+
+- webpack 5 Module Federation with Angular and the Angular Router + Dynaic loadModule (angulararchitects): https://github.com/manfredsteyer/module-federation-with-angular-dynamic/tree/master
+
+
+
+============ ROUTE ============
+Anh ơi, về chủ đề Route, em có tham khảo docs & source của angualar-architecture, e note lại nhận định cá nhân:
+- họ mô tả và cách dùng khá dễ hiểu.
+- sử dụng lib @angular-architect (Federation official cũng dùng để demo) 
+
+
+- link: Dynamically Creating Routes https://www.angulararchitects.io/en/blog/dynamic-module-federation-with-angular/
+- source code: https://github.com/manfredsteyer/module-federation-with-angular-dynamic/tree/simple
+
+
+# Ý tưởng:
+- app shell: 
++ có option của thư viện định nghĩa path (routePath: string) => mỗi "path" ứng với 1 module
++ Code logic tự động thêm Route vào module chính (return [...APP_ROUTES, ...lazyRoutes])
+
+
+=> điều kiện: routePath (config ở shell) phải trùng với path trỏ vào module (app con)
+ví dụ:
+- app con: path = "user" -> load module USER (webpack expose USER)
+- app shell: load remote module USER thì set RoutePath = "user"
+
+
+=> coi AppShell ngang tương đương cấp cha của module remote (app con), thiên về build cấu trúc dự án.
+=> đã đạt được tôn chỉ: shell và app mfe có thể phát triển riêng biệt.
+
+
+Tuy nhiên: trường hợp trong remote module có RouterLink được định nghĩa ở 1 module khác (app con) => shell không load được, vì module định nghĩa path không được load ở shell.
+=> trường hợp này App chạy độc lập thì Ok, dễ hiểu bởi vì chạy độc lập sẽ load toàn bộ dự án con.
+=> đây là điều hiển nhiên.
+
+
+Theo em thấy thiết kế này 80-90% cũng sẽ hoạt động với cả Reach và Vue không cần custom gì thêm, em chưa demo nên chưa chắc chắn 100%
+(demo Vue và React load vào Shell (Angular) e đã demo cho anh xem)
+
+--------------
+# các app con Link sang nhau có được không?
+-> CÓ, hoạt động rất bình thường với điều kiện module app2 cũng phải được load vào shell (đã demo)
+
+# vấn đề mà app con và app shell có thể hiển thị KHÔNG giống nhau 
+theo nguyên lý đúng là như vậy, theo em hiểu thì:
++ app con độc lập: load Toàn bộ Module, module cha chính là Parent
++ được load ở Shell => Shell là parent -> chỉ hiển thị Component app con
+=> 2 parent khác nhau thì không thể giống nhau, đây là vấn đề của Angular
+======== STATE ========
+
+Có, có nhiều thư viện và framework có thể được sử dụng để triển khai event bus trong ứng dụng của bạn. Ví dụ, trong môi trường JavaScript/TypeScript, bạn có thể sử dụng các thư viện như:
+
+- EventEmitter: Là một module có sẵn trong Node.js cho phép truyền dữ liệu giữa các thành phần của ứng dụng thông qua các sự kiện. Bạn có thể sử dụng nó để triển khai event bus.
+- Vue.js EventBus: Vue.js cung cấp một chức năng EventBus sẵn có cho việc giao tiếp giữa các thành phần trong ứng dụng Vue.
+- Redux: Redux là một thư viện quản lý trạng thái cho ứng dụng JavaScript. Bạn có thể sử dụng nó như một event bus để gửi và nhận các action giữa các thành phần.
+- RxJS Subjects: RxJS là một thư viện cho việc lập trình bất đồng bộ trong JavaScript. Bạn có thể sử dụng RxJS Subjects để triển khai một event bus cho ứng dụng của bạn.
+- EventBus trong các framework như Angular và React: Cả Angular và React đều có cơ chế giao tiếp giữa các thành phần thông qua các event bus tùy chỉnh.
+
+============ STATE ============
+3. state (authen token chẳng hạn) phải đc đồng bộ khi gọi link giữa các app với nhau
+- case:
+	+ mfe : tạo file serivce.ts
+		> import rxjs
+		> expose file service này => hoặc nghiên cứu đưa vào loader.ts hoặc expose cùng module	
+		> dữ liệu thì hard code đoạn text 
+			-> ok thì chuyển qua input html
+		> có console log để check xem thay đổi từ app thì bên này có thay đổi theo không
+		
+	+ shell:
+		> import service từ app
+		> hiển thị data: sử dụng console log
+	
+=> TRIỂN
+		
+		
+	

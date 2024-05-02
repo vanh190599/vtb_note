@@ -1,0 +1,92 @@
+nodejs : v20.12.2
+angular: 17
+ng-zorro:
+
+
+========= 1. Payment-hub-shell =========
+// ssh clone
+git clone git@github.com:vanh190599/payment-hub-add.git
+
+// https clone
+https://github.com/vanh190599/payment-hub-add.git
+
+// create project
+ng new --no-standalone payment-hub-shell
+-> SCSS
+
+// ng-zorro (ant design)
+ng add ng-zorro-antd
+-> khong chay bang npm, phai chay ng
+
+
+# After
+	- lược bớt  class -> chuyển css tổng
+	- format scss
+	- card title => doi len tren
+	- layout: bỏ header cũ -> dùng được nz-layout thì tốt
+	- footer
+	- check button có vấn đề
+	- inputs border
+	- tách css custom - style tổng common.css
+	- responsive
+	- content ra giua man hinh
+	- dua breacum vao content
+	- "Tài khoản trích nợ 1" -> tạo khoảng cách trống phần text note -> đối ứng
+
+========= 2. Payment-hub-search =========
+ng new payment-hub-search --no-standalone
+
+// create module
+ng generate module search
+
+ng generate component search/search
+
+
+
+
+
+========= 3. Payment-hub-add =========
+ng new payment-hub-add --no-standalone
+
+# ghép mfe
+- shell:
+	cmd:
+		ng generate component layout/header
+		ng generate component layout/footer
+		ng generate component layout/sidebar
+		ng generate component layout/main-layout
+		ng generate component home
+		ng generate component dashboard
+
+	step1:
+		install ng-zerro
+		-> dựng layout:
+			header
+			footer
+			main-layout...
+
+	step2: install angular-architec/federation
+
+
+
+
+
+- create:
+	create n
+- search
+
+
+
+# thứ tự cài đặt quan trọng:
+	- 1. ng zorro
+	- 2. webpack anguakar architect
+	-> ngược lại sẽ bị lỗi ghi đè icon => bootstrap not found
+	
+# 1493.js:1 ERROR NullInjectorError: R3InjectorError(SearchModule)[CdkConnectedOverlay -> CdkConnectedOverlay -> CdkConnectedOverlay]: 
+  NullInjectorError: No provider for CdkConnectedOverlay!
+  
+-> Fix: app shell -> import { CdkConnectedOverlay } from '@angular/cdk/overlay'; 
+	=> provider: [CdkConnectedOverlay]
+	
+	
+# Uncaught SyntaxError: Cannot use 'import.meta' outside a module
