@@ -56,11 +56,6 @@ $ ng generate component create/create
 
 
 
-
-
-
-
-
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # ghép mfe
@@ -81,7 +76,6 @@ $ ng generate component create/create
 
 	step2: install angular-architec/federation
 	
-
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # thứ tự cài đặt quan trọng:
@@ -108,7 +102,6 @@ $ ng generate component create/create
 # đưa css custom vào components
 	:host ::ng-deep
 	
-	
 # CSS chung
 	- do vậy nên khi e build MFE framework e phải có cái style chung
 	- 1 số style guides là:
@@ -121,45 +114,66 @@ $ ng generate component create/create
 # gom vào loader
 	loader.ts
 
-# ý tưởng load route động theo config mf.manifest
-		
-		// shell 
-		 constructor(
-			private readonly router: Router
-		  ) {}
+# ý tưởng load route động theo config mf.manifest (Angular architect)
+	- https://www.angulararchitects.io/en/blog/dynamic-module-federation-with-angular/
 
-		  async ngOnInit() {
-			const authorized_modules = [
-			  {
-				remoteEntry: 'http://localhost:3001/remoteEntry.js',
-				remoteName: 'angular_app',
-				exposedModule: 'AngularAppLoader',
-			  },
-			];
-			for (const m of authorized_modules) {
-			  const moduleLoader = await loadRemoteModule(m);
+# loader ts:
 
-			  for (const loader in moduleLoader) {
-				const moduleExportName = moduleLoader[loader].module.export;
-
-				// this load module synchronous, therefore the loadChildren below is actually "not lazy load"
-				// To improve: only when user enter this page then we call loader()
-				const module = await moduleLoader[loader].module.loader();
-				this.router.config.push({
-				  path: 'feature-mfe',
-				  loadChildren: () => module[moduleExportName],
-				});
-			  }
-			}
-		}
-				
-		
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# confirm design
-	- icon: 
-		chuyển qua google
-		animation
-		
-	- ant version
+# fallback:
+	+ lỗi ở shell?
+	+ lỗi ở mfe?
 	
-	- bản desgin
+	
+# 1 số cái sau cần làm chỉn chủ vì hầu như mfe nào cũng cần:
+	- loader.ts: 
+		+ đưa ra 1 chuẩn viết để các mfe follow theo.
+		-> force lazyload (vì nếu mfe nó cố tình declare import sync thì cũng khó)
+	- merge route: 
+		+ dành cho Angular, nếu host app là angular. 
+		+ Khi mfe là react với react router hay vue với router thì nó ko hiểu angular router là gì
+			=> như vậy thì e sẽ cần có cơ chế để nhập router từ các framework khác vào angular (Pending`)
+	- với những framework như vue, nó có plugin thì support làm sao? Khai báo ntn
+		-> (cái này nên làm ở loader.ts, cố gắng làm sao dynamic import để nó lazy thì tốt)
+	- API call conflict:
+		+ nhiều mfe có tỉ api và rất dễ conflict, cộng thêm api đi tới backend của từng mfe riêng vậy auth sẽ rất loạn
+		=> cái này có thể làm kiểu api cho đi qua hết app shell, auth 1 chỗ thôi, mỗi mfe register backend url vuat nó với app shell)
+	- styles: 
+		+ nếu đc thì chọn 1 cái ui lib nào đó support nhiều framework và đa dạng component, ví dụ a dùng PrimeNG, nó có primereact, primevue, angular… như vậy thì style của cả app shell sẽ đồng nhất và hanh chế conflict (tất nhiên cái này khó ví như vậy là mình force mfe rồi, mất sự tự do)
+	- Deployment pipeline
+		-> nên viết pipeline để dùng chung cho mfe để họ khỏi phải tự viết.
+
+
+# breacum service?
+	- triển khai service ở shell
+
+
+# i18n: ngx-translate
+	- https://github.com/ngx-translate/core?tab=readme-ov-file#installation
+	- update ở shell => con thay đổi
+
+	(*) vấn đề: 
+		1) File size / tải chung 
+			- 1 file ngôn ngữ có thể quá lớn khi scale up
+				=> viết service để tách theo module hoặc từng components?
+					+ mỗi comp/module sẽ tải bản dịch tương ứng.
+			- link:
+				+ cách tải các tệp riêng biệt cho mỗi module: https://github.com/ngx-translate/core/issues/411
+				+ Cách tải các tệp dịch riêng biệt cho mỗi mô-đun: https://github.com/ngx-translate/core/issues/411
+				
+		2) tải sai url
+			- TH: mfe load ở shell => khi get json của thì bị sai domain
+			ví dụ: 
+				http://mfe-domain/i18n-mfe/vi.json
+				-> shel: 
+					http://shell-domain/i18n-mfe/vi.json
+					-> tự động ăn path của shell, do thông qua assest		
+						
+			=> Phương án:
+				1) Code CustomLoader / loader
+					- fix: domain-mfe
+				2) load trực tiếp module:
+					+ import json as module: import * as jsonData from '../assets/i18n/vi.json'; // Import JSON data
+					+ load vào ngx-stranslate
+	
+	
+ 
