@@ -174,6 +174,36 @@ $ ng generate component create/create
 				2) load trực tiếp module:
 					+ import json as module: import * as jsonData from '../assets/i18n/vi.json'; // Import JSON data
 					+ load vào ngx-stranslate
+				# expert:
+					import => trả về 1 url
+					module.exports.module = {
+					
+					// module
+					import i18n from "/json"
+					
+					// webpack.config.js
+					rules: [
+						{
+						  test: /\.json$/,
+						  type: 'asset/resource', // chỉ định file JSON không parse chúng thành object
+						  generator: {
+							filename: 'assets/i18n/[name][ext]',
+						  },
+						},
+					  ],
+					}
+					
+					// config TS
+					"resolveJsonModule": true,
 	
 	
- 
+	# flow:
+		- sử dụng: 
+			+ localStorage 
+			+ CusotmEvent: phát sự kiện từ shell -> mfe
+		
+	# tách shell
+	
+	
+# file env / config system / hàm common, filter...
+	- env: https://www.digitalocean.com/community/tutorials/angular-environment-variables
