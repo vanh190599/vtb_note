@@ -1,2 +1,0 @@
-1. khi routing thì ở phía ngừoi dùng chỉ biết đến 1 link duy nhất của app shell
-sda

@@ -1,0 +1,69 @@
+# build base:
+- config chung
+- function chung
+- icon css
+- custom scss của ant: từng component 
+- shared: pipe
+- shared: componet, service
+- i18n:
+	+ tích hợp mfe
+	+ tách dùng module hoặc component
+- jwt
+- microFE
+- ant
+---------------------------
+ng new --no-standanlone angular-base
+
+
+Federation
+
+Shell (Angular) 
+	projects
+		mfe 1
+		mfe 2
+		mfe 3
+		
+	=> custom wepack?
+	
+	
+----------------
+
+Shell
+
+Mfe 1
+
+Mfe 2
+
+Mfe 3
+
+------------------------
+wiget
+
+
+
+- Load module: --> DynamicLoad
+	- 4 ways: https://oskari.io/blog/dynamic-remotes-module-federation
+	- officical: code https://webpack.js.org/concepts/module-federation/#dynamic-remote-containers
+- route
+- build: nx / ng ?
+- Ant design custom
+	ng-zorro: Angular + Ant version 4x
+	-> customize: 5x
+- chú ý thứ tự install: angular-architect và ng-zorro
+- State Angular: ngrx https://ngrx.io/
+- State MFE: rxjs
+- phân quyền: ngx-permissions
+- scss: include path, structure,...
+- i18n: 2 cách
+	+ Angular : https://v17.angular.io/guide/i18n-overview
+	+ ngx-translate https://www.npmjs.com/package/@ngx-translate/core
+		-> cần build base mỗi module/componet là 1 file json (không nên viết chung)
+	
+
+
+
+
+[ Thursday, May 23, 2024 8:38 AM ] ⁨Van Anh⁩: a xin mail
+[ Thursday, May 23, 2024 8:38 AM ] ⁨Vu Thi Hanh Trang⁩: tranghus05@gmail.com
+[ Thursday, May 23, 2024 8:38 AM ] ⁨Vu Thi Hanh Trang⁩: mail cá nhân à a
+[ Thursday, May 23, 2024 8:38 AM ] ⁨Van Anh⁩: figma này không phải bản chính thức đâu, về sau sẽ phải dùng gmail vietinbank

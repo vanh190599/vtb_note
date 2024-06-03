@@ -32,6 +32,7 @@ ng add ng-zorro-antd
 	- dua breacum vao content
 	- "Tài khoản trích nợ 1" -> tạo khoảng cách trống phần text note -> đối ứng
 
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ========= 2. Payment-hub-search =========
 $ ng new payment-hub-search --no-standalone
@@ -39,6 +40,7 @@ $ ng generate module search
 $ ng add @angular-architects/module-federation --project payment-hub-create --port 4202 --type remote
 $ ng generate module create
 $ ng generate component create/create
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ========= 3. Payment-hub-add =========
@@ -80,7 +82,7 @@ $ ng generate component create/create
 
 # thứ tự cài đặt quan trọng:
 			- 1. ng zorro
-			- 2. webpack anguakar architect
+			- 2. webpack anguakar architect: 
 			-> ngược lại sẽ bị lỗi ghi đè icon => bootstrap not found
 
 # 1493.js:1 ERROR NullInjectorError: R3InjectorError(SearchModule)[CdkConnectedOverlay -> CdkConnectedOverlay -> CdkConnectedOverlay]: 
@@ -132,8 +134,8 @@ $ ng generate component create/create
 		+ dành cho Angular, nếu host app là angular. 
 		+ Khi mfe là react với react router hay vue với router thì nó ko hiểu angular router là gì
 			=> như vậy thì e sẽ cần có cơ chế để nhập router từ các framework khác vào angular (Pending`)
-	- với những framework như vue, nó có plugin thì support làm sao? Khai báo ntn
 		-> (cái này nên làm ở loader.ts, cố gắng làm sao dynamic import để nó lazy thì tốt)
+	- với những framework như vue, nó có plugin thì support làm sao? Khai báo ntn
 	- API call conflict:
 		+ nhiều mfe có tỉ api và rất dễ conflict, cộng thêm api đi tới backend của từng mfe riêng vậy auth sẽ rất loạn
 		=> cái này có thể làm kiểu api cho đi qua hết app shell, auth 1 chỗ thôi, mỗi mfe register backend url vuat nó với app shell)
@@ -141,6 +143,10 @@ $ ng generate component create/create
 		+ nếu đc thì chọn 1 cái ui lib nào đó support nhiều framework và đa dạng component, ví dụ a dùng PrimeNG, nó có primereact, primevue, angular… như vậy thì style của cả app shell sẽ đồng nhất và hanh chế conflict (tất nhiên cái này khó ví như vậy là mình force mfe rồi, mất sự tự do)
 	- Deployment pipeline
 		-> nên viết pipeline để dùng chung cho mfe để họ khỏi phải tự viết.
+
+
+cái này chắc e phải dùng (hoặc build) 1 cái event registry (kiểu event bus, service,...) để bắn event đi trong app của e.
+ví dụ như dùng 1 cái share observable
 
 
 # breacum service?

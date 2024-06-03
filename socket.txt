@@ -1,0 +1,118 @@
+=== SOCKET === 
+
+# server: nodejs
+	
+# fe: angular
+	npm install express socket.io
+	
+	
+
+socket-listen:1 Access to XMLHttpRequest at 'http://localhost:3002/socket.io/?EIO=4&transport=polling&t=O-vM4zA' from origin 'http://localhost:4200' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+
+Websocket
+	server:  nodejs    + socket io
+	client:  angular17 + socket io https://www.npmjs.com/package/socket.io-client
+	
+
+
+- database
+- demo full luồng:
+	Mark all as read
+	...	
+	
+	reload => mất
+		giải pháp:
+			server lưu noti database  --> sau đó emit cho client
+			client reload			  --> api: get notice
+				
+				=> chỉ query khi reaload
+				
+	Client: click xem
+		- call api update
+
+
+============== RabbitMQ ==============
+RabbitMQ 	
+	message broker --> quản lý và điều phối việc gửi và nhận thông điệp giữa các dịch vụ một cách hiệu quả
+
+
+Đẩy thông báo thời gian thực:
+- RabbitMQ
+- Node.js
+- Angular
+- Socket.IO
+
+
+# Ý tưởng:
+	- RabbitMQ  : hàng đợi tin nhắn (messages queue) để truyển tải thông báo từ backend tới frontend
+	- nodejs	: backend server gửi thông báo tới RabbitMQ và xử lý sự kiện RabbitMQ
+	- socket.IO : kết nối thời gian thực giữa backend và frontend
+	- Angular   : 
+
+
+cmd:
+	rabbitmqctl status
+	rabbitmq-plugins.bat list
+	rabbitmq-plugins.bat enable rabbitmq_management
+	
+	http://localhost:15672/ 
+	guest, guest
+	
+	rabbit@anhnv - 25672
+Lưu trữ: Mnesia 
+	
+	- sử dụng một cơ sở dữ liệu Erlang có tên là Mnesia
+	- Mnesia lữu trữ:
+		queue
+		exchanges
+		binding
+		thông tin cấu hình hệ thống
+	
+# links:
+1, Node js chat server using Express, Socket IO, Redis and RabbitMQ https://github.com/sathrak/socketioandamqplib
+2, Real-Time Exchange Information With Microservices and NodeJs https://medium.com/swlh/real-time-exchange-information-with-microservices-and-nodejs-e6bf6623bca6
+
+topic
+	partiton 1
+		message
+		message
+		message
+	partiton 2
+		message
+		message
+		message
+	partiton 3
+		message
+		message
+		message
+
+CPU 8  thread => dựa vào luồng chia ra partiton 32 (bội số của thred)
+CPU 64 thread => 
+
+
+
+
+Kafka:
+--------------
+	message broker
+	data streaming
+	event driver - Event Bridge
+	offset
+	không có pritory?
+	docker
+
+
+
+--------------
+Kafka & 
+
+RabbitMQ & ActiveMQ
+	message => mức độ FIFO : thứ tự
+			=> pritory	
+			
+			
+---------------
+Messager broker	
+	producer
+	consumber
